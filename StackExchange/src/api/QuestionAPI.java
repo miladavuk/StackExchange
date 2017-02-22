@@ -42,6 +42,8 @@ public class QuestionAPI {
 			//json niz koji sadrzi sva pitanja
 			JsonArray items = questionJson.get("items").getAsJsonArray();
 			
+			///kad budem obra]ivala vise pitanja, ovde treba da pocne petlja
+			
 			Question question = new Question();
 			
 			//posto vracamo 1 pitanje, to je prvi el u json nizu
@@ -56,7 +58,7 @@ public class QuestionAPI {
 			}
 			question.setTags(tags);
 			
-			//objekat unutar objekta
+			//json objekat unutar json objekta (koji sadrzi 1 pitanje)
 			Owner owner = new Owner();
 			JsonObject ownerJson = (JsonObject) objectInItems.get("owner").getAsJsonObject();
 			owner.setReputation(ownerJson.get("reputation").getAsInt());
@@ -85,6 +87,9 @@ public class QuestionAPI {
 			
 			question.setTitle(objectInItems.get("title").getAsString());
 			
+			///kraj buduce petlje
+			
+			///vracace se lista pitanja, a ne jedno pitanje
 			return question;
 			
 			
@@ -103,6 +108,8 @@ public class QuestionAPI {
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 		con.setRequestMethod("GET");
+		
+		//podaci su enkodirani uz pomoc gzipa, pa se bez 2 linije ispod vraca besmislen sadrzaj, a ne json
 		con.setRequestProperty("Accept-Encoding", "gzip");
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(new GZIPInputStream(con.getInputStream())));
