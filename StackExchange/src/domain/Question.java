@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -15,7 +16,14 @@ public class Question {
 	private Date creation_date;
 	private int question_id;
 	private String title;
+	private ArrayList<Answer> answers;
 	
+	public ArrayList<Answer> getAnswers() {
+		return answers;
+	}
+	public void setAnswers(ArrayList<Answer> answers) {
+		this.answers = answers;
+	}
 	public String[] getTags() {
 		return tags;
 	}
