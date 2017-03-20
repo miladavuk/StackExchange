@@ -2,9 +2,7 @@ package main;
 
 import domain.Answer;
 import domain.Question;
-
 import java.util.ArrayList;
-
 import api.AnswerAPI;
 import api.QuestionAPI;
 
@@ -16,7 +14,7 @@ public class Main {
 		QuestionAPI questionApi = new QuestionAPI();
 		ArrayList<Question> allQuestions = new ArrayList<Question>();
 		
-		//metoda zahteva da se prosledi redni br strane i prazna lista za cuvanje pitanja
+		//metoda zahteva da se prosledi redni br strane(na pocetku to je 1) i prazna lista za cuvanje pitanja
 		ArrayList<Question> questions = questionApi.getQuestions(1, allQuestions);
 		
 		ArrayList<Question> answeredQuestions = new ArrayList<Question>();
@@ -42,6 +40,9 @@ public class Main {
 			for (Answer answer : allAnswersForAQuestion) {
 				
 				System.out.println(answer.toString());
+				//necemo za vise od 5 pitanja da ispisuje odgovore, previse je
+				if(i>=5)
+					break;
 				
 			}
 			

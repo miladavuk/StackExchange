@@ -3,24 +3,17 @@ package api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import domain.Owner;
 import domain.Question;
 
@@ -31,7 +24,6 @@ public class QuestionAPI {
 	private static int page=1;
 	//u URL-u maksimalnih 100 rezultata po stranici i redni br strane (page) koji je promenljiv
 	private static String questionURL = "http://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1451606400&todate=1483228800&order=desc&sort=activity&site=stackoverflow";
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 	ArrayList<Question> allQuestions = new ArrayList<Question>();
 
 	
