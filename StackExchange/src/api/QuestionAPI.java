@@ -10,6 +10,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +27,16 @@ import domain.Question;
 
 public class QuestionAPI {
 	
-	private static final String questionURL = "http://api.stackexchange.com/2.2/questions?pagesize=5&order=desc&sort=activity&site=stackoverflow";
+	private static int page=1;
+	private static String questionURL = "http://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1451606400&todate=1483228800&order=desc&sort=activity&site=stackoverflow";
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+	ArrayList<Question> allQuestions = new ArrayList<Question>();
 
 	
 	
-	public Question getQuestion() throws ParseException {
+
+	public ArrayList<Question> getQuestions(int page, ArrayList<Question> allQuestions) throws ParseException {
+		
 		try {
 			String result = sendGet(questionURL);
 			
@@ -39,31 +44,61 @@ public class QuestionAPI {
 			
 			//objekat koji enkapsulira sve na stranici
 			JsonObject questionJson = (JsonObject) gson.fromJson(result, JsonObject.class);
+			//da li postoji jos odgovora na zahtev
+			boolean has_more = questionJson.get("has_more").getAsBoolean();
+			
 			//json niz koji sadrzi sva pitanja
 			JsonArray items = questionJson.get("items").getAsJsonArray();
 			
-			///kad budem obra]ivala vise pitanja, ovde treba da pocne petlja
 			
+			ArrayList<Question> questions = allQuestions;
+			
+			///kad budem obradjivala vise pitanja, ovde treba da pocne petlja
+			for (int i = 0; i < items.size(); i++) {
+				
 			Question question = new Question();
 			
+			
 			//posto vracamo 1 pitanje, to je prvi el u json nizu
-			JsonObject objectInItems = (JsonObject) items.get(0);
+			JsonObject objectInItems = (JsonObject) items.get(i);
 			
 			//taj element sadrzi atribute pitanja
 			JsonArray tagsJson = objectInItems.get("tags").getAsJsonArray();
 			String[] tags = new String[tagsJson.size()];
 			
-			for (int i = 0; i < tags.length; i++) {
-				tags[i]=tagsJson.get(i).getAsString();				
+			for (int j = 0; j < tags.length; j++) {
+				tags[j]=tagsJson.get(j).getAsString();				
 			}
 			question.setTags(tags);
 			
 			//json objekat unutar json objekta (koji sadrzi 1 pitanje)
 			Owner owner = new Owner();
 			JsonObject ownerJson = (JsonObject) objectInItems.get("owner").getAsJsonObject();
-			owner.setReputation(ownerJson.get("reputation").getAsInt());
-			owner.setUser_id(ownerJson.get("user_id").getAsInt());
-			owner.setUser_type(ownerJson.get("user_type").getAsString());
+			
+			//potrebni try-catch blokovi jer se ove vrednosti nekad vracaju kao null
+			int reputation=Integer.MIN_VALUE;
+			try {
+				reputation = ownerJson.get("reputation").getAsInt();
+			} catch (Exception e) {
+				
+			}
+			owner.setReputation(reputation);
+			
+			int user_id = Integer.MIN_VALUE;
+			try {
+				user_id=ownerJson.get("user_id").getAsInt();
+			} catch (Exception e) {
+				
+			}
+			owner.setUser_id(user_id);
+			
+			String user_type = null;
+			try {
+				user_type=ownerJson.get("user_type").getAsString();
+			} catch (Exception e) {
+				
+			}
+			owner.setUser_type(user_type);
 			question.setOwner(owner);
 			
 			question.setIs_answered( objectInItems.get("is_answered").getAsBoolean());
@@ -87,10 +122,16 @@ public class QuestionAPI {
 			
 			question.setTitle(objectInItems.get("title").getAsString());
 			
-			///kraj buduce petlje
 			
-			///vracace se lista pitanja, a ne jedno pitanje
-			return question;
+			questions.add(question);
+			}
+			
+			//ako postoji jos pitanja koja odgovaraju upitu, a broj strana je manji od 100 (ukupno 100*100=10000 pitanja),vracaj jos pitanja
+			if(has_more==true && page<100){
+				return getQuestions(++page,questions);
+			}
+			else
+				return questions;
 			
 			
 		//handlovanje izuzetaka	

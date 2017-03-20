@@ -1,6 +1,9 @@
 package main;
 
 import domain.Question;
+
+import java.util.ArrayList;
+
 import api.QuestionAPI;
 
 public class Main {
@@ -9,9 +12,10 @@ public class Main {
 
 
 		QuestionAPI api = new QuestionAPI();
-		Question question = api.getQuestion();
+		ArrayList<Question> questions1 = new ArrayList<Question>();
+		ArrayList<Question> questions = api.getQuestions(1,questions1);
 		
-		System.out.println(question.toString());	
+		System.out.println(questions.size());	
 		
 	}
 
