@@ -18,6 +18,7 @@ public class Question {
 	private String title;
 	private ArrayList<Answer> answers;
 	
+	
 	public ArrayList<Answer> getAnswers() {
 		return answers;
 	}

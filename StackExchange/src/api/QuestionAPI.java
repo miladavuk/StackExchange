@@ -55,13 +55,12 @@ public class QuestionAPI {
 			
 			ArrayList<Question> questions = allQuestions;
 			
-			///kad budem obradjivala vise pitanja, ovde treba da pocne petlja
 			for (int i = 0; i < items.size(); i++) {
 				
 			Question question = new Question();
 			
 			
-			//posto vracamo 1 pitanje, to je prvi el u json nizu
+			
 			JsonObject objectInItems = (JsonObject) items.get(i);
 			
 			//taj element sadrzi atribute pitanja
