@@ -12,8 +12,17 @@ public class Main {
 
 
 		QuestionAPI api = new QuestionAPI();
-		ArrayList<Question> questions1 = new ArrayList<Question>();
-		ArrayList<Question> questions = api.getQuestions(1,questions1);
+		ArrayList<Question> allQuestions = new ArrayList<Question>();
+		
+		//metoda zahteva da se prosledi redni br strane i prazna lista za cuvanje pitanja
+		ArrayList<Question> questions = api.getQuestions(1, allQuestions);
+		
+		ArrayList<Question> answeredQuestions = new ArrayList<Question>();
+		
+		for (Question question : questions) {
+			if(question.isIs_answered())
+				answeredQuestions.add(question);			
+		}
 		
 		System.out.println(questions.size());	
 		

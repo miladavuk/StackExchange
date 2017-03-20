@@ -27,7 +27,9 @@ import domain.Question;
 
 public class QuestionAPI {
 	
+	//redni broj stranice rezultata, figurise u URL-u i promenljiv je
 	private static int page=1;
+	//u URL-u maksimalnih 100 rezultata po stranici i redni br strane (page) koji je promenljiv
 	private static String questionURL = "http://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1451606400&todate=1483228800&order=desc&sort=activity&site=stackoverflow";
 	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
 	ArrayList<Question> allQuestions = new ArrayList<Question>();
@@ -126,7 +128,8 @@ public class QuestionAPI {
 			questions.add(question);
 			}
 			
-			//ako postoji jos pitanja koja odgovaraju upitu, a broj strana je manji od 100 (ukupno 100*100=10000 pitanja),vracaj jos pitanja
+			//ako postoji jos pitanja koja odgovaraju upitu, 
+			//a broj strana je manji od 100 (ukupno 100*100=10000 pitanja),vracaj jos pitanja
 			if(has_more==true && page<100){
 				return getQuestions(++page,questions);
 			}
