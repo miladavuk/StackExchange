@@ -16,7 +16,9 @@ public class Question {
 	private Date creation_date;
 	private int question_id;
 	private String title;
+	//atributi koji ne pripadaju json objektu
 	private ArrayList<Answer> answers;
+	private Answer earliestAnswer;
 	
 	
 	public ArrayList<Answer> getAnswers() {
@@ -111,6 +113,12 @@ public class Question {
 		if (question_id != other.question_id)
 			return false;
 		return true;
+	}
+	public Answer getEarliestAnswer() {
+		return earliestAnswer;
+	}
+	public void setEarliestAnswer(Answer earliestAnswer) {
+		this.earliestAnswer = earliestAnswer;
 	}
 	
 	
