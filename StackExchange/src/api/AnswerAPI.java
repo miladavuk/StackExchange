@@ -19,42 +19,34 @@ import domain.Answer;
 public class AnswerAPI {
 
 		
-		//URL je promenljiv u zavisnosti od parametra question_id
-		private static int question_id=0000000;
-		//u URL-u maksimalnih 100 rezultata po stranici
-		private static String answerURL = "http://api.stackexchange.com/2.2/questions/"+question_id+"/answers?pagesize=100&order=desc&sort=activity&site=stackoverflow";
-		ArrayList<Answer> allAnswers = new ArrayList<Answer>();
+		
+		private String answerURL;
 
-		
-		
 		//ova metoda nece biti rekurzivna, jer nijedno pitanje nema vise od 100 odgovora
-		@SuppressWarnings("static-access")
+		
 		public ArrayList<Answer> getAnswers(int question_id) throws ParseException {
-			
-			
+					
 			try {
-				this.question_id = question_id;
+				this.answerURL = "http://api.stackexchange.com/2.2/questions/"+question_id+"/answers?pagesize=100&order=desc&sort=activity&site=stackoverflow";
+
 				String result = sendGet(answerURL);
 				
 				Gson gson = new GsonBuilder().create();
 				
 				//objekat koji enkapsulira sve na stranici
-				JsonObject questionJson = (JsonObject) gson.fromJson(result, JsonObject.class);
+				JsonObject answerJson = (JsonObject) gson.fromJson(result, JsonObject.class);
 
 
 				
 				//json niz koji sadrzi sve odgovore
-				JsonArray items = questionJson.get("items").getAsJsonArray();
-				
-				
-				ArrayList<Answer> answers = allAnswers;
+				JsonArray items = answerJson.get("items").getAsJsonArray();
+												
+				ArrayList<Answer> answers = new ArrayList<Answer>();
 				
 				
 				for (int i = 0; i < items.size(); i++) {
 					
-				Answer answer = new Answer();
-				
-				
+				Answer answer = new Answer();				
 				
 				JsonObject objectInItems = (JsonObject) items.get(i);
 				
@@ -66,7 +58,7 @@ public class AnswerAPI {
 				
 				answer.setAnswer_id(objectInItems.get("answer_id").getAsInt());		
 				
-				
+				if(!answers.contains(answer))
 				answers.add(answer);
 				}
 				
