@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -42,9 +43,27 @@ public class Main {
 		
 		ArrayList<Question> questionsFromFile = deserializeQuestions();
 
-		System.out.println(questionsFromFile.size());
-		System.out.println(questionsFromFile.get(1));
+		//Provera prikupljenih podataka
+		System.out.println("Broj pitanja: "+questionsFromFile.size());
+		System.out.println("*****PRVO PITANJE*****");
+		System.out.println(questionsFromFile.get(0));
+		System.out.println("*****KRAJ PRVOG PITANJA*****");
 		
+		//provera tagova, ukupno ih je 35920, a jedinstvenih skoro 10 puta manje tj 4202
+		LinkedList<String> allTags=new LinkedList<String>();
+		LinkedList<String> uniqueTags=new LinkedList<String>();
+		
+		for (Question q : questionsFromFile) {
+			for (int i = 0; i < q.getTags().length; i++) {
+				allTags.add(q.getTags()[i]);
+				if(!uniqueTags.contains(q.getTags()[i]))
+					uniqueTags.add(q.getTags()[i]);					
+			}			
+		}
+		
+		System.out.println("Broj tagova: "+allTags.size());
+		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
+
 		
 
 		
