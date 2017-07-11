@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import domain.Owner;
 import domain.Question;
 
 
@@ -25,7 +24,7 @@ public class QuestionAPI {
 	
 
 	public ArrayList<Question> getQuestions(int page, ArrayList<Question> allQuestions) throws ParseException {
-		String questionURL = "http://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1451606400&todate=1483228800&order=desc&sort=activity&site=stackoverflow";
+		String questionURL = "https://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1435795200&todate=1451520000&order=desc&sort=activity&tagged=java&site=stackoverflow&filter=!)re8-BBbvkGyazC*-K9O";
 
 		try {
 			String result = sendGet(questionURL);
@@ -58,50 +57,7 @@ public class QuestionAPI {
 			for (int j = 0; j < tags.length; j++) {
 				tags[j]=tagsJson.get(j).getAsString();				
 			}
-			question.setTags(tags);
-			
-			//json objekat unutar json objekta (koji sadrzi 1 pitanje)
-			Owner owner = new Owner();
-			JsonObject ownerJson = (JsonObject) objectInItems.get("owner").getAsJsonObject();
-			
-			//potrebni try-catch blokovi jer se ove vrednosti nekad vracaju kao null
-			int reputation=Integer.MIN_VALUE;
-			try {
-				reputation = ownerJson.get("reputation").getAsInt();
-			} catch (Exception e) {
-				
-			}
-			owner.setReputation(reputation);
-			
-			int user_id = Integer.MIN_VALUE;
-			try {
-				user_id=ownerJson.get("user_id").getAsInt();
-			} catch (Exception e) {
-				
-			}
-			owner.setUser_id(user_id);
-			
-			String user_type = null;
-			try {
-				user_type=ownerJson.get("user_type").getAsString();
-			} catch (Exception e) {
-				
-			}
-			owner.setUser_type(user_type);
-			question.setOwner(owner);
-			
-			question.setIs_answered( objectInItems.get("is_answered").getAsBoolean());
-			
-						
-			question.setView_count(objectInItems.get("view_count").getAsInt());	
-			
-			question.setAnswer_count(objectInItems.get("answer_count").getAsInt());
-			
-			question.setScore(objectInItems.get("score").getAsInt());
-			
-			Long timeStampNumber = objectInItems.get("last_activity_date").getAsLong();
-			Date last_activity_date = new Date(timeStampNumber);
-			question.setLast_activity_date(last_activity_date);
+			question.setTags(tags);	
 			
 			Long timeStampNumber2 = objectInItems.get("creation_date").getAsLong();
 			Date creation_date = new Date(timeStampNumber2);
@@ -110,14 +66,15 @@ public class QuestionAPI {
 			question.setQuestion_id(objectInItems.get("question_id").getAsInt());
 			
 			question.setTitle(objectInItems.get("title").getAsString());
+			question.setBody(objectInItems.get("body").getAsString());
 			
 			if(!questions.contains(question))
 			questions.add(question);
 			}
 			
 			//ako postoji jos pitanja koja odgovaraju upitu, 
-			//a broj strana je manji od 10 (ukupno 10*100=1000 pitanja),vracaj jos pitanja
-			if(has_more==true && page<10){
+			//a broj strana je manji od 10 (ukupno 100*100=10000 pitanja),vracaj jos pitanja
+			if(has_more==true && page<100){
 				return getQuestions(++page,questions);
 			}
 			else
