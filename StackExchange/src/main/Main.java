@@ -61,35 +61,49 @@ public class Main {
 //		System.out.println("Broj tagova: "+allTags.size());
 //		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
 		
-		ArrayList<Question> questions0 = deserializeQuestions();
-		ArrayList<Question> questions1 = deserializeQuestions1();
-		ArrayList<Question> questions2 = deserializeQuestions2();
-		ArrayList<Question> questions3 = deserializeQuestions3();
-		ArrayList<Question> questions4 = deserializeQuestions4();
+//		ArrayList<Question> questions0 = deserializeQuestions();
+//		ArrayList<Question> questions1 = deserializeQuestions1();
+//		ArrayList<Question> questions2 = deserializeQuestions2();
+//		ArrayList<Question> questions3 = deserializeQuestions3();
+//		ArrayList<Question> questions4 = deserializeQuestions4();
+//		
+//		
+//		ArrayList<Question> allQuestions = questions0;
+//		allQuestions.addAll(questions1);
+//		allQuestions.addAll(questions2);
+//		allQuestions.addAll(questions3);
+//		allQuestions.addAll(questions4);
+//		
+//		ArrayList<Integer> ids = new ArrayList<Integer>();
+//		
+//		for (Question question : allQuestions) {
+//			if(!ids.contains(question.getQuestion_id()))
+//				ids.add(question.getQuestion_id());
+//		}
+//
+//		System.out.println("Broj sacuvanih pitanja: "+allQuestions.size());
+//		System.out.println("Broj jedinstvenih id-jeva: "+ids.size());
+//		
+//		//Brojevi se poklapaju (37 800), pa mozemo da sacuvamo sva pitanja
+//		
+//		serializeQuestionsAll(allQuestions);
+
+		//provera tagova, ukupno ih je 35920, a jedinstvenih skoro 10 puta manje tj 4202
 		
+		ArrayList<Question> questionsFromFile= deserializeQuestionsAll();
+		LinkedList<String> allTags=new LinkedList<String>();
+		LinkedList<String> uniqueTags=new LinkedList<String>();
 		
-		ArrayList<Question> allQuestions = questions0;
-		allQuestions.addAll(questions1);
-		allQuestions.addAll(questions2);
-		allQuestions.addAll(questions3);
-		allQuestions.addAll(questions4);
-		
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		
-		for (Question question : allQuestions) {
-			if(!ids.contains(question.getQuestion_id()))
-				ids.add(question.getQuestion_id());
+		for (Question q : questionsFromFile) {
+			for (int i = 0; i < q.getTags().length; i++) {
+				allTags.add(q.getTags()[i]);
+				if(!uniqueTags.contains(q.getTags()[i]))
+					uniqueTags.add(q.getTags()[i]);					
+			}			
 		}
-
-		System.out.println("Broj sacuvanih pitanja: "+allQuestions.size());
-		System.out.println("Broj jedinstvenih id-jeva: "+ids.size());
 		
-		//Brojevi se poklapaju (37 800), pa mozemo da sacuvamo sva pitanja
-		
-		serializeQuestionsAll(allQuestions);
-
-		
-		
+		System.out.println("Broj tagova: "+allTags.size());
+		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
 
 	}		
 		
