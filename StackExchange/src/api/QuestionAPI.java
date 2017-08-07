@@ -24,7 +24,7 @@ public class QuestionAPI {
 	
 
 	public ArrayList<Question> getQuestions(int page, ArrayList<Question> allQuestions) throws ParseException {
-		String questionURL = "https://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1435795200&todate=1451520000&order=desc&sort=activity&tagged=java&site=stackoverflow&filter=!)re8-BBbvkGyazC*-K9O";
+		String questionURL = "https://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1451606400&todate=1467331200&order=desc&sort=activity&tagged=java&site=stackoverflow&filter=!)re8-BBbvkGyazC*-K9O";
 
 		try {
 			String result = sendGet(questionURL);
