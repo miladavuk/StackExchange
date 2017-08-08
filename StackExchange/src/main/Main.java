@@ -90,20 +90,33 @@ public class Main {
 
 		//provera tagova, ukupno ih je 35920, a jedinstvenih skoro 10 puta manje tj 4202
 		
+//		ArrayList<Question> questionsFromFile= deserializeQuestionsAll();
+//		LinkedList<String> allTags=new LinkedList<String>();
+//		LinkedList<String> uniqueTags=new LinkedList<String>();
+//		
+//		for (Question q : questionsFromFile) {
+//			for (int i = 0; i < q.getTags().length; i++) {
+//				allTags.add(q.getTags()[i]);
+//				if(!uniqueTags.contains(q.getTags()[i]))
+//					uniqueTags.add(q.getTags()[i]);					
+//			}			
+//		}
+//		
+//		System.out.println("Broj tagova: "+allTags.size());
+//		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
+		
 		ArrayList<Question> questionsFromFile= deserializeQuestionsAll();
-		LinkedList<String> allTags=new LinkedList<String>();
-		LinkedList<String> uniqueTags=new LinkedList<String>();
 		
-		for (Question q : questionsFromFile) {
-			for (int i = 0; i < q.getTags().length; i++) {
-				allTags.add(q.getTags()[i]);
-				if(!uniqueTags.contains(q.getTags()[i]))
-					uniqueTags.add(q.getTags()[i]);					
-			}			
-		}
-		
-		System.out.println("Broj tagova: "+allTags.size());
-		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
+		numberOfPopularTags(20,questionsFromFile);
+		numberOfPopularTags(30,questionsFromFile);
+		numberOfPopularTags(40,questionsFromFile);
+		numberOfPopularTags(50,questionsFromFile);
+		numberOfPopularTags(58,questionsFromFile);
+		numberOfPopularTags(60,questionsFromFile);
+		numberOfPopularTags(70,questionsFromFile);
+		numberOfPopularTags(80,questionsFromFile);
+		numberOfPopularTags(90,questionsFromFile);
+		numberOfPopularTags(100,questionsFromFile);
 
 	}		
 		
@@ -196,6 +209,34 @@ public class Main {
 		return (ArrayList<Question>) listOfQuestions;
 	}
 	
+	private static void numberOfPopularTags(int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
+		
+				
+		LinkedList<String> uniqueTags=new LinkedList<String>();
+		LinkedList<String> popularTags=new LinkedList<String>();
+		
+		for (Question q : questionsFromFile) {
+			for (int i = 0; i < q.getTags().length; i++) {				
+				if(!uniqueTags.contains(q.getTags()[i]))
+					uniqueTags.add(q.getTags()[i]);					
+			}			
+		}
+		for(String tag : uniqueTags){
+			int numberOfOccurances=0;
+			for (Question q : questionsFromFile) {
+				for (int i = 0; i < q.getTags().length; i++) {				
+					if(tag.equals(q.getTags()[i]))
+						numberOfOccurances++;					
+				}			
+			}			
+			if(numberOfOccurances>=numberOfQuestions && !popularTags.contains(tag))
+				popularTags.add(tag);				
+		}
+		
+		System.out.println(popularTags.size()+" tagova se javlja u "+numberOfQuestions+" ili vise pitanja");
+		
+		
+	}
 	
 
 }
