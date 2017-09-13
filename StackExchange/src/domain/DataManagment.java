@@ -40,13 +40,13 @@ public class DataManagment {
 		return editedQuestions;
 	}
 	
-	public LinkedList<String> popularTags (int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
+	public LinkedList<String> popularTags (int numberOfQuestions, ArrayList<EditedQuestion> questionsFromFile) throws Exception{
 		
 		
 		LinkedList<String> uniqueTags=new LinkedList<String>();
 		LinkedList<String> popularTags=new LinkedList<String>();
 		
-		for (Question q : questionsFromFile) {
+		for (EditedQuestion q : questionsFromFile) {
 			for (int i = 0; i < q.getTags().length; i++) {				
 				if(!uniqueTags.contains(q.getTags()[i]))
 					uniqueTags.add(q.getTags()[i]);					
@@ -54,7 +54,7 @@ public class DataManagment {
 		}
 		for(String tag : uniqueTags){
 			int numberOfOccurances=0;
-			for (Question q : questionsFromFile) {
+			for (EditedQuestion q : questionsFromFile) {
 				for (int i = 0; i < q.getTags().length; i++) {				
 					if(tag.equals(q.getTags()[i]))
 						numberOfOccurances++;					

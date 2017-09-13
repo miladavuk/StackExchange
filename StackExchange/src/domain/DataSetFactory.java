@@ -2,23 +2,22 @@ package domain;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 
 import weka.core.Attribute;
 import weka.core.FastVector;
+import weka.core.Instance;
+import weka.core.Instances;
 
 public class DataSetFactory {
 	
-	public void createDatasetForATag(String tag){
+	public Instances createDatasetForATag(String tag,FastVector attributes, ArrayList<EditedQuestion> eqs){
 		
 		String filePath= "data/"+tag+"DataSet.arff";
-		InputOutput io = new InputOutput();		
-		ArrayList<EditedQuestion> eqs = new ArrayList<EditedQuestion>();
-		try {
-			eqs = io.deserializeEditedQuestions();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//create empty dataset
+		
+		Instances dataSet = new Instances(tag+"DataSet",attributes, eqs.size());
 		for (EditedQuestion editedQuestion : eqs) {
 			boolean containsTag=false;
 			for(String t : editedQuestion.getTags()){
@@ -27,24 +26,39 @@ public class DataSetFactory {
 					break;
 				}			
 			}
-			
+			dataSet.add( createInstance(dataSet, attributes, editedQuestion, containsTag));			
 		}
-		
-		
-		
+		dataSet.setClassIndex(dataSet.numAttributes()-1);		
+		return dataSet;	
 	}
 	
-	private static ArrayList<Attribute> createAttributes(String tag) {
-		ArrayList<Attribute> attributes = new ArrayList<>();	
+	public FastVector createAttributes(String tag) {
+		FastVector attributes = new FastVector(2);	
 		
 		//tag: yes, no
-		FastVector tagValues = new FastVector();
+		FastVector tagValues = new FastVector(2);
 		tagValues.addElement("yes");
 		tagValues.addElement("no");
-		attributes.add(new Attribute(tag+"Attr", tagValues));
-		attributes.add(new Attribute("text", (FastVector) null));
+		
+		attributes.addElement(new Attribute(tag+"Attr", tagValues));
+		attributes.addElement(new Attribute("text", (FastVector) null));
 		
 		return attributes;
+	}
+	
+	private Instance createInstance(Instances dataSet, FastVector attributes,  EditedQuestion dataItem, boolean hasTag) {
+		
+		String classAtribute="no";
+		if(hasTag)
+			classAtribute="yes";
+			
+		Instance i = new Instance(2);
+		i.setDataset(dataSet);
+		i.setValue(0, classAtribute);
+		i.setValue(1, dataItem.getText());
+		
+		
+		return i;
 	}
 
 }

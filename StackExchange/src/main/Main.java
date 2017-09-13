@@ -7,9 +7,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import api.QuestionAPI;
 import domain.DataManagment;
+import domain.DataSetFactory;
 import domain.EditedQuestion;
 import domain.InputOutput;
 import domain.Question;
+import weka.core.FastVector;
+import weka.core.Instances;
+import weka.core.converters.ArffSaver;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -121,6 +127,32 @@ public class Main {
 		//System.out.println(questionsFromFile.get(0).getTitle());
 		//System.out.println(questionsFromFile.get(0).getBody());
 //		System.out.println(eqs.get(0).getText());
+		
+		InputOutput io = new InputOutput();		
+		ArrayList<EditedQuestion> eqs = new ArrayList<EditedQuestion>();
+		
+		try {
+			eqs = io.deserializeEditedQuestions();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DataManagment dm = new DataManagment();
+		
+		LinkedList<String> popTags = dm.popularTags(100, eqs);
+		
+		DataSetFactory dsf = new DataSetFactory();		
+		
+		//create a dataset for every popular tag
+		for (String tag : popTags) {
+			FastVector attributes = dsf.createAttributes(tag);
+			Instances dataSet = dsf.createDatasetForATag(tag, attributes, eqs);
+			ArffSaver saver = new ArffSaver();
+			 saver.setInstances(dataSet);
+			 saver.setFile(new File("data/"+tag+"DataSet.arff"));		 
+			 saver.writeBatch();
+			
+		}
 		
 		
 		
