@@ -40,7 +40,7 @@ public class DataManagment {
 		return editedQuestions;
 	}
 	
-	public void numberOfPopularTags(int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
+	public LinkedList<String> popularTags popularTags(int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
 		
 		
 		LinkedList<String> uniqueTags=new LinkedList<String>();
@@ -62,11 +62,11 @@ public class DataManagment {
 			}			
 			if(numberOfOccurances>=numberOfQuestions && !popularTags.contains(tag)&& !tag.equals("java")){
 				popularTags.add(tag);	
-				System.out.println("Tag "+tag+" se javlja "+numberOfOccurances+" puta");
+				
 				}	
 		}
 		
-		System.out.println(popularTags.size()+" tagova se javlja u "+numberOfQuestions+" ili vise pitanja");
+		return popularTags;
 		
 		
 	}
