@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import api.QuestionAPI;
-import domain.DataManagment;
-import domain.DataSetFactory;
 import domain.EditedQuestion;
-import domain.InputOutput;
 import domain.Question;
+import domain.data.DataManagment;
+import domain.data.DataSetFactory;
+import domain.data.InputOutput;
 import weka.core.FastVector;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
@@ -49,31 +49,9 @@ public class Main {
 //		ArrayList<Question> questions = questionApi.getQuestions(1, allQuestions);
 //		
 //		//cuvamo skinuta pitanja
-//		serializeQuestions2(questions);
+//		serializeQuestions4(questions);
 		
-			
-//		ArrayList<Question> questionsFromFile = deserializeQuestions2();
-//
-//		//Provera prikupljenih podataka
-//		System.out.println("Broj pitanja: "+questionsFromFile.size());
-//		System.out.println("*****PRVO PITANJE*****");
-//		System.out.println(questionsFromFile.get(0));
-//		System.out.println("*****KRAJ PRVOG PITANJA*****");
-//		
-//		//provera tagova, ukupno ih je 35920, a jedinstvenih skoro 10 puta manje tj 4202
-//		LinkedList<String> allTags=new LinkedList<String>();
-//		LinkedList<String> uniqueTags=new LinkedList<String>();
-//		
-//		for (Question q : questionsFromFile) {
-//			for (int i = 0; i < q.getTags().length; i++) {
-//				allTags.add(q.getTags()[i]);
-//				if(!uniqueTags.contains(q.getTags()[i]))
-//					uniqueTags.add(q.getTags()[i]);					
-//			}			
-//		}
-//		
-//		System.out.println("Broj tagova: "+allTags.size());
-//		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
+	
 		
 //		ArrayList<Question> questions0 = deserializeQuestions();
 //		ArrayList<Question> questions1 = deserializeQuestions1();
@@ -87,46 +65,16 @@ public class Main {
 //		allQuestions.addAll(questions2);
 //		allQuestions.addAll(questions3);
 //		allQuestions.addAll(questions4);
-//		
-//		ArrayList<Integer> ids = new ArrayList<Integer>();
-//		
-//		for (Question question : allQuestions) {
-//			if(!ids.contains(question.getQuestion_id()))
-//				ids.add(question.getQuestion_id());
-//		}
-//
-//		System.out.println("Broj sacuvanih pitanja: "+allQuestions.size());
-//		System.out.println("Broj jedinstvenih id-jeva: "+ids.size());
-//		
-//		//Brojevi se poklapaju (37 800), pa mozemo da sacuvamo sva pitanja
-//		
+	
 //		serializeQuestionsAll(allQuestions);
 
-		//provera tagova, ukupno ih je 35920, a jedinstvenih skoro 10 puta manje tj 4202
 		
-//		ArrayList<Question> questionsFromFile= deserializeQuestionsAll();
-//		LinkedList<String> allTags=new LinkedList<String>();
-//		LinkedList<String> uniqueTags=new LinkedList<String>();
-//		
-//		for (Question q : questionsFromFile) {
-//			for (int i = 0; i < q.getTags().length; i++) {
-//				allTags.add(q.getTags()[i]);
-//				if(!uniqueTags.contains(q.getTags()[i]))
-//					uniqueTags.add(q.getTags()[i]);					
-//			}			
-//		}
-//		
-//		System.out.println("Broj tagova: "+allTags.size());
-//		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
 		
 //		InputOutput io = new InputOutput();
 //		ArrayList<Question> questionsFromFile= io.deserializeQuestionsAll();
 //		DataManagment dm = new DataManagment();
 //		ArrayList<EditedQuestion> eqs = dm.editQuestions(questionsFromFile);
 //		io.serializeEditedQuestions(eqs);
-		//System.out.println(questionsFromFile.get(0).getTitle());
-		//System.out.println(questionsFromFile.get(0).getBody());
-//		System.out.println(eqs.get(0).getText());
 		
 		InputOutput io = new InputOutput();		
 		ArrayList<EditedQuestion> eqs = new ArrayList<EditedQuestion>();
@@ -156,20 +104,6 @@ public class Main {
 		
 		
 		
-		
-		//ArrayList<EditedQuestion> eqs = io.deserializeEditedQuestions();
-		//System.out.println(eqs.get(0).getText());
-		
-//		numberOfPopularTags(20,questionsFromFile);
-//		numberOfPopularTags(30,questionsFromFile);
-//		numberOfPopularTags(40,questionsFromFile);
-//		numberOfPopularTags(50,questionsFromFile);
-//		numberOfPopularTags(58,questionsFromFile);
-//		numberOfPopularTags(60,questionsFromFile);
-//		numberOfPopularTags(70,questionsFromFile);
-//		numberOfPopularTags(80,questionsFromFile);
-//		numberOfPopularTags(90,questionsFromFile);
-		//dm.numberOfPopularTags(100,questionsFromFile);
 		
 	}		
 		

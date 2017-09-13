@@ -1,10 +1,10 @@
-package domain;
+package domain.data;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import domain.EditedQuestion;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;

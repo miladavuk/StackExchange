@@ -1,4 +1,4 @@
-package domain;
+package domain.data;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
+
+import domain.EditedQuestion;
+import domain.Question;
 
 public class DataManagment {
 	

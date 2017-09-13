@@ -1,4 +1,4 @@
-package domain;
+package domain.data;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +11,9 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import domain.EditedQuestion;
+import domain.Question;
 
 public class InputOutput {
 
