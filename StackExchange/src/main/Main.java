@@ -1,10 +1,14 @@
 package main;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import api.QuestionAPI;
+import domain.DataManagment;
+import domain.EditedQuestion;
+import domain.InputOutput;
 import domain.Question;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +19,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
 
 
 public class Main {
@@ -105,138 +113,39 @@ public class Main {
 //		System.out.println("Broj tagova: "+allTags.size());
 //		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
 		
-		ArrayList<Question> questionsFromFile= deserializeQuestionsAll();
+		InputOutput io = new InputOutput();
+		ArrayList<Question> questionsFromFile= io.deserializeQuestionsAll();
+		DataManagment dm = new DataManagment();
+		ArrayList<EditedQuestion> eqs = dm.editQuestions(questionsFromFile);
+		io.serializeEditedQuestions(eqs);
+		//System.out.println(questionsFromFile.get(0).getTitle());
+		//System.out.println(questionsFromFile.get(0).getBody());
+		System.out.println(eqs.get(0).getText());
 		
-		numberOfPopularTags(20,questionsFromFile);
-		numberOfPopularTags(30,questionsFromFile);
-		numberOfPopularTags(40,questionsFromFile);
-		numberOfPopularTags(50,questionsFromFile);
-		numberOfPopularTags(58,questionsFromFile);
-		numberOfPopularTags(60,questionsFromFile);
-		numberOfPopularTags(70,questionsFromFile);
-		numberOfPopularTags(80,questionsFromFile);
-		numberOfPopularTags(90,questionsFromFile);
-		numberOfPopularTags(100,questionsFromFile);
-
+		
+		
+		
+		//ArrayList<EditedQuestion> eqs = io.deserializeEditedQuestions();
+		//System.out.println(eqs.get(0).getText());
+		
+//		numberOfPopularTags(20,questionsFromFile);
+//		numberOfPopularTags(30,questionsFromFile);
+//		numberOfPopularTags(40,questionsFromFile);
+//		numberOfPopularTags(50,questionsFromFile);
+//		numberOfPopularTags(58,questionsFromFile);
+//		numberOfPopularTags(60,questionsFromFile);
+//		numberOfPopularTags(70,questionsFromFile);
+//		numberOfPopularTags(80,questionsFromFile);
+//		numberOfPopularTags(90,questionsFromFile);
+		//dm.numberOfPopularTags(100,questionsFromFile);
+		
 	}		
 		
 	
 	
-	private static void serializeQuestions(ArrayList<Question> lista) throws IOException{ 
-		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("questions.json", true), lista);
-	}
-
 	
-	private static ArrayList<Question> deserializeQuestions() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		Question [] questions = objectMapper.readValue(new FileInputStream("questions.json"), Question[].class);
-		List listOfQuestions = Arrays.asList(questions);
-        listOfQuestions = new ArrayList<>(listOfQuestions);
-		return (ArrayList<Question>) listOfQuestions;
-	}
-	private static void serializeQuestions1(ArrayList<Question> lista) throws IOException{ 
-		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("questions1.json", true), lista);
-	}
-
 	
-	private static ArrayList<Question> deserializeQuestions1() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		Question [] questions = objectMapper.readValue(new FileInputStream("questions1.json"), Question[].class);
-		List listOfQuestions = Arrays.asList(questions);
-        listOfQuestions = new ArrayList<>(listOfQuestions);
-		return (ArrayList<Question>) listOfQuestions;
-	}
-	private static void serializeQuestions2(ArrayList<Question> lista) throws IOException{ 
-		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("questions2.json", true), lista);
-	}
-
 	
-	private static ArrayList<Question> deserializeQuestions2() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		Question [] questions = objectMapper.readValue(new FileInputStream("questions2.json"), Question[].class);
-		List listOfQuestions = Arrays.asList(questions);
-        listOfQuestions = new ArrayList<>(listOfQuestions);
-		return (ArrayList<Question>) listOfQuestions;
-	}
-	
-	private static void serializeQuestions3(ArrayList<Question> lista) throws IOException{ 
-		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("questions3.json", true), lista);
-	}
-
-	
-	private static ArrayList<Question> deserializeQuestions3() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		Question [] questions = objectMapper.readValue(new FileInputStream("questions3.json"), Question[].class);
-		List listOfQuestions = Arrays.asList(questions);
-        listOfQuestions = new ArrayList<>(listOfQuestions);
-		return (ArrayList<Question>) listOfQuestions;
-	}
-	private static void serializeQuestions4(ArrayList<Question> lista) throws IOException{ 
-		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("questions4.json", true), lista);
-	}
-
-	
-	private static ArrayList<Question> deserializeQuestions4() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		Question [] questions = objectMapper.readValue(new FileInputStream("questions4.json"), Question[].class);
-		List listOfQuestions = Arrays.asList(questions);
-        listOfQuestions = new ArrayList<>(listOfQuestions);
-		return (ArrayList<Question>) listOfQuestions;
-	}
-	
-	private static void serializeQuestionsAll(ArrayList<Question> lista) throws IOException{ 
-		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("questionsAll.json", true), lista);
-	}
-
-	
-	private static ArrayList<Question> deserializeQuestionsAll() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		Question [] questions = objectMapper.readValue(new FileInputStream("questionsAll.json"), Question[].class);
-		List listOfQuestions = Arrays.asList(questions);
-        listOfQuestions = new ArrayList<>(listOfQuestions);
-		return (ArrayList<Question>) listOfQuestions;
-	}
-	
-	private static void numberOfPopularTags(int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
-		
-				
-		LinkedList<String> uniqueTags=new LinkedList<String>();
-		LinkedList<String> popularTags=new LinkedList<String>();
-		
-		for (Question q : questionsFromFile) {
-			for (int i = 0; i < q.getTags().length; i++) {				
-				if(!uniqueTags.contains(q.getTags()[i]))
-					uniqueTags.add(q.getTags()[i]);					
-			}			
-		}
-		for(String tag : uniqueTags){
-			int numberOfOccurances=0;
-			for (Question q : questionsFromFile) {
-				for (int i = 0; i < q.getTags().length; i++) {				
-					if(tag.equals(q.getTags()[i]))
-						numberOfOccurances++;					
-				}			
-			}			
-			if(numberOfOccurances>=numberOfQuestions && !popularTags.contains(tag))
-				popularTags.add(tag);				
-		}
-		
-		System.out.println(popularTags.size()+" tagova se javlja u "+numberOfQuestions+" ili vise pitanja");
-		
-		
-	}
 	
 
 }
