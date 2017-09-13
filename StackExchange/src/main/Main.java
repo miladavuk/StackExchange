@@ -113,14 +113,14 @@ public class Main {
 //		System.out.println("Broj tagova: "+allTags.size());
 //		System.out.println("Broj jedinstvenih tagova: "+uniqueTags.size());
 		
-		InputOutput io = new InputOutput();
-		ArrayList<Question> questionsFromFile= io.deserializeQuestionsAll();
-		DataManagment dm = new DataManagment();
-		ArrayList<EditedQuestion> eqs = dm.editQuestions(questionsFromFile);
-		io.serializeEditedQuestions(eqs);
+//		InputOutput io = new InputOutput();
+//		ArrayList<Question> questionsFromFile= io.deserializeQuestionsAll();
+//		DataManagment dm = new DataManagment();
+//		ArrayList<EditedQuestion> eqs = dm.editQuestions(questionsFromFile);
+//		io.serializeEditedQuestions(eqs);
 		//System.out.println(questionsFromFile.get(0).getTitle());
 		//System.out.println(questionsFromFile.get(0).getBody());
-		System.out.println(eqs.get(0).getText());
+//		System.out.println(eqs.get(0).getText());
 		
 		
 		

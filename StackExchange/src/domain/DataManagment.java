@@ -40,7 +40,7 @@ public class DataManagment {
 		return editedQuestions;
 	}
 	
-	public LinkedList<String> popularTags popularTags(int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
+	public LinkedList<String> popularTags (int numberOfQuestions, ArrayList<Question> questionsFromFile) throws Exception{
 		
 		
 		LinkedList<String> uniqueTags=new LinkedList<String>();

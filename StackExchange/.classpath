@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/jackson-databind-2.8.6.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-annotations-2.8.6.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Mimi/Desktop/jsoup-1.10.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mimi/Desktop/AI/weka.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
