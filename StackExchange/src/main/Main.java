@@ -76,31 +76,36 @@ public class Main {
 //		ArrayList<EditedQuestion> eqs = dm.editQuestions(questionsFromFile);
 //		io.serializeEditedQuestions(eqs);
 		
-		InputOutput io = new InputOutput();		
-		ArrayList<EditedQuestion> eqs = new ArrayList<EditedQuestion>();
-		
-		try {
-			eqs = io.deserializeEditedQuestions();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		DataManagment dm = new DataManagment();
-		
-		LinkedList<String> popTags = dm.popularTags(100, eqs);
-		
-		DataSetFactory dsf = new DataSetFactory();		
-		
-		//create a dataset for every popular tag
-		for (String tag : popTags) {
-			FastVector attributes = dsf.createAttributes(tag);
-			Instances dataSet = dsf.createDatasetForATag(tag, attributes, eqs);
-			ArffSaver saver = new ArffSaver();
-			 saver.setInstances(dataSet);
-			 saver.setFile(new File("data/"+tag+"DataSet.arff"));		 
-			 saver.writeBatch();
-			
-		}
+//		InputOutput io = new InputOutput();		
+//		ArrayList<EditedQuestion> eqs = new ArrayList<EditedQuestion>();
+//		
+//		try {
+//			eqs = io.deserializeEditedQuestions();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		DataManagment dm = new DataManagment();
+//		
+//		LinkedList<String> popTags = dm.popularTags(100, eqs);
+//		
+//		DataSetFactory dsf = new DataSetFactory();		
+//		
+//		//create a dataset for every popular tag
+//		for (String tag : popTags) {
+//			FastVector attributes = dsf.createAttributes(tag);
+//			Instances dataSet = dsf.createDatasetForATag(tag, attributes, eqs);
+//			ArffSaver saver = new ArffSaver();
+//			 saver.setInstances(dataSet);
+//			 saver.setFile(new File("data/"+tag+"DataSet.arff"));		 
+//			 saver.writeBatch();
+//			
+//		}
+		DataSetFactory dsf = new DataSetFactory();
+	//	dsf.stratifiedCrossValidation(tag);
+	//	DataSetFactory dsf = new DataSetFactory();
+	//	dsf.stratifiedCV("cassandra");
+		dsf.stratifiedCV("json");
 		
 		
 		
