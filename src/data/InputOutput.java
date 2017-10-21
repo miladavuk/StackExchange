@@ -1,4 +1,4 @@
-package domain.data;
+package data;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,22 +7,39 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import domain.EditedQuestion;
 import domain.Question;
-
+/**
+ * 
+ * @author Milada
+ *
+ */
 public class InputOutput {
 
-	public   void serializeQuestions(ArrayList<Question> lista, String stringOrNumber) throws IOException{ 
+	/**
+	 * 
+	 * @param listOfQuestions 
+	 * @param stringOrNumber - empty String (""), number 1 to 4 or "All"
+	 * @throws IOException
+	 */
+	public   void serializeQuestions(ArrayList<Question> listOfQuestions, String stringOrNumber) throws IOException{ 
 		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("jsonData/questions"+stringOrNumber+".json", true), lista);
+		mapper.writeValue(new FileOutputStream("jsonData/questions"+stringOrNumber+".json", true), listOfQuestions);
 	}
 
-	
+	/**
+	 * 
+	 * @param stringOrNumber - empty String (""), number 1 to 4 or "All"
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
 	public   ArrayList<Question> deserializeQuestions(String stringOrNumber) throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -32,12 +49,25 @@ public class InputOutput {
 		return (ArrayList<Question>) listOfQuestions;
 	}
 	
-	public   void serializeEditedQuestions(ArrayList<EditedQuestion> lista) throws IOException{ 
+	/**
+	 * 
+	 * @param listOfEditedQuestions
+	 * @throws IOException
+	 */
+	public   void serializeEditedQuestions(ArrayList<EditedQuestion> listOfEditedQuestions) throws IOException{ 
 		ObjectMapper  mapper = new ObjectMapper();
-		mapper.writeValue(new FileOutputStream("jsonData/editedQuestions.json", true), lista);
+		mapper.writeValue(new FileOutputStream("jsonData/editedQuestions.json", true), listOfEditedQuestions);
 	}
 
-	
+	/**
+	 * 
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("unchecked")
 	public   ArrayList<EditedQuestion> deserializeEditedQuestions() throws JsonParseException, JsonMappingException, FileNotFoundException, IOException{
 		ObjectMapper objectMapper = new ObjectMapper();
 

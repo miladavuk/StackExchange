@@ -1,4 +1,4 @@
-package domain.data;
+package data;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,11 +10,20 @@ import org.jsoup.safety.Whitelist;
 import domain.EditedQuestion;
 import domain.Question;
 
+/**
+ * 
+ * @author Milada
+ *
+ */
 public class DataManagment {
 	
 	
 	
-	
+	/**
+	 * 
+	 * @param rawQuestions - the questions that contain tags and code
+	 * @return - list of questions without tags and code
+	 */
 	public ArrayList<EditedQuestion> editQuestions(ArrayList<Question> rawQuestions){
 		
 		DataManagment dm = new DataManagment();
@@ -43,6 +52,13 @@ public class DataManagment {
 		return editedQuestions;
 	}
 	
+	/**
+	 * 
+	 * @param numberOfQuestions - the number of questions in which a tag appears (use 100)
+	 * @param questionsFromFile - questions from file editedQuestions.json
+	 * @return - returns a list of tags that appear in at least a given number of questions
+	 * @throws Exception
+	 */
 	public LinkedList<String> popularTags (int numberOfQuestions, ArrayList<EditedQuestion> questionsFromFile) throws Exception{
 		
 		

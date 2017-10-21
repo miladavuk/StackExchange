@@ -16,13 +16,20 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import domain.Question;
 
-
+/**
+ * 
+ * @author Milada
+ *
+ */
 public class QuestionAPI {
 	
-
-
-	
-
+	/**
+	 * 
+	 * @param page - must be 1!
+	 * @param allQuestions - it's a recursive method so the list to be returned is passed on as a parameter
+	 * @return - returns up to 10000 questions from a certain period that meet the criteria in the URL
+	 * @throws ParseException
+	 */
 	public ArrayList<Question> getQuestions(int page, ArrayList<Question> allQuestions) throws ParseException {
 		String questionURL = "https://api.stackexchange.com/2.2/questions?page="+page+"&pagesize=100&fromdate=1451606400&todate=1467331200&order=desc&sort=activity&tagged=java&site=stackoverflow&filter=!)re8-BBbvkGyazC*-K9O";
 
@@ -31,12 +38,12 @@ public class QuestionAPI {
 			
 			Gson gson = new GsonBuilder().create();
 			
-			//objekat koji enkapsulira sve na stranici
+			//object that encapsulates everything on the page
 			JsonObject questionJson = (JsonObject) gson.fromJson(result, JsonObject.class);
-			//da li postoji jos odgovora na zahtev
+			//are there more objects/pages
 			boolean has_more = questionJson.get("has_more").getAsBoolean();
 			
-			//json niz koji sadrzi sva pitanja
+			//json array that contains all questions
 			JsonArray items = questionJson.get("items").getAsJsonArray();
 			
 			
@@ -47,10 +54,10 @@ public class QuestionAPI {
 			Question question = new Question();
 			
 			
-			//jedan objekat u json nizu items predstavlja 1 pitanje
+			//one object in json array items represents one question
 			JsonObject objectInItems = (JsonObject) items.get(i);
 			
-			//taj element sadrzi atribute pitanja
+			//that object contains the attributes of the question
 			JsonArray tagsJson = objectInItems.get("tags").getAsJsonArray();
 			String[] tags = new String[tagsJson.size()];
 			
@@ -72,16 +79,15 @@ public class QuestionAPI {
 			questions.add(question);
 			}
 			
-			//ako postoji jos pitanja koja odgovaraju upitu, 
-			//a broj strana je manji od 10 (ukupno 100*100=10000 pitanja),vracaj jos pitanja
+			//if there are more questions that meet the criteria
+			//and the number of the current page is less than 100 (total 100*100=10000 questions),
+			//return more questions
 			if(has_more==true && page<100){
 				return getQuestions(++page,questions);
 			}
 			else
 				return questions;
-			
-			
-		//handlovanje izuzetaka	
+					
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -90,14 +96,20 @@ public class QuestionAPI {
 		return null;
 	}
 	
-	//metoda za slanje GET zahteva za dati URL
+	//method for sending GET requests to the given URL
+	/**
+	 * 
+	 * @param url
+	 * @return - returns a String that contains JSON data
+	 * @throws IOException
+	 */
 	private String sendGet(String url) throws IOException {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 		con.setRequestMethod("GET");
 		
-		//podaci su enkodirani uz pomoc gzipa, pa se bez 2 linije ispod vraca besmislen sadrzaj, a ne json
+		//the data is encoded using gzip, so the next 2 lines are used to get around that
 		con.setRequestProperty("Accept-Encoding", "gzip");
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(new GZIPInputStream(con.getInputStream())));
