@@ -136,16 +136,11 @@ public class ClassifierBuilder {
 		e.printStackTrace();
 	}
 	System.out.println("FINAL OUTPUT FOR TAG: "+tag);
-	System.out.println("Accuracy is: " + accuracySum / folds+"%");
-	System.out.println("Precision is: " + 100*sumPrecision / folds+"%");
-	System.out.println("Recall is: " + 	100*sumRecall / folds+"%");
-	System.out.println("Fmeasure is: " + 100*sumFmeasure / folds+"%");
-	System.out.println("Mean absolute error is: "+meanAbsoluteError/folds);
-	System.out.println("Root mean squared error is: "+rootMeanSquaredError/folds);
-	System.out.println("Relative absolute error is: "+relativeAbsoluteError/folds+"%");
-	System.out.println("Root relative squared error is: "+rootRelativeSquaredError/folds+"%");
-	System.out.println("Kappa statistics is: "+kappaStatistics/folds);
-		}
+	ClassifierMatrix cm = new ClassifierMatrix(accuracySum/folds, 100*sumPrecision/folds,
+			100*sumRecall/folds, 100*sumFmeasure/folds, meanAbsoluteError/folds, 
+			rootMeanSquaredError/folds, relativeAbsoluteError/folds, rootRelativeSquaredError/folds, kappaStatistics/folds);
+	cm.toString();
+	}
 	private Filter returnMultifilter(Instances data) {
 		StringToWordVector textToWordfilter = new StringToWordVector();
 		textToWordfilter.setTokenizer(new WordTokenizer());		
