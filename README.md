@@ -1,9 +1,9 @@
-# Building a model for suggesting tags for questions posed on stackoverflow.com using Stack Exchange API
+# Building a model for recommending tags for questions posed on stackoverflow.com using Stack Exchange API
 
 
 ## The Problem
 
-The purpose of this project is to generate a model that suggests a tag for a question on the website [StackOverflow](www.stackoverflow.com). In other words, it should predict whether a question should or should not include a certain tag based on the title and the body of the question. The solution proposed in this project includes using text mining techniques of categorizing a question to each of the most popular tags.
+The purpose of this project is to generate a model that reccommends a tag for a question on the website [StackOverflow](www.stackoverflow.com). In other words, it should predict whether a question should or should not include a certain tag based on the title and the body of the question. 
 
 ## Tools Used
 
@@ -26,9 +26,11 @@ The questions pulled from the API needed to fullfill the following criteria:
 
 ## Data Preprocessing
 
-Since all questions were related to programming, besides the textual description of a question, they also included code snippets. Since the code snippets are not relevant for our building our classification model, and could actually introduce the the noise, the collected questions were edited not to include any code snippets. At the end, only the title and textual description of a question were saved. 
+Since all questions were related to programming, besides the textual description of a question, they also included code snippets. Since the code snippets are not relevant for our building our classification model, and could actually introduce noise, the collected questions were edited not to include any code snippets. At the end, only the title and textual description of a question were saved. 
 
 ## Classification
+
+In order for this model to be able to recommend tags for a question, what it should essentially do is use text mining techniques to classify each question to a predefined class <b>yes</b> (the tag should be recommended for that question) or <b>no</b> (the tag should not be recommended for that question).
 
 ### Choosing tags
 
@@ -61,9 +63,11 @@ private Instances createDatasetForATag(String tag,FastVector attributes, ArrayLi
 	return dataSet;	
 }
   ```
+  However, classification wasn't applied to the entire datasets, but rather to a subset taking up 3% of the original dataset in order to shorten the computing time. The subset was stratified, meaning that the class attribute had a roughly uniform distribution.
+  
 ### Building Classifier
   
-Naive Bayes was used as the classification algorithm. And in order to minimize the bias of the classifier, we have used cross-validation. The classifier wasn't applied to the entire datasets, since computing time was incredibly long. Instead, a stratified subset of the dataset was used.
+Naive Bayes was used as the classification algorithm. Also, in order to minimize the bias of the classifier, we have used cross-validation. 
 In the end, the final output is based on the subset containing 3% of the original dataset and using 10-fold cross-validation. <br/>**No significant changes in the performance of the classifier were spotted by varying the size of the subset from 2% to 5% or by using 20 folds instead of 10 to reduce the bias**.
 
 ### Classification results and performance
@@ -73,3 +77,8 @@ The classification metrics (Accuracy, Precision, Recall and F measure) for all d
 ## Conclusion
 
 The parmeters of the classifications display an outstanding performance. This is usually nothing to be too pleased about and raises suspicion. As previously mentioned, cross-validation was used to avoid overfitting. Even the increase in the number of folds (from 10 to 20) which lowers the bias, didn't noticeably change the values of any parameters. So how come this model has such a high success rate at predicting whether a question should contain a tag or not? My personal conviction is that this is due to the fact that nearly every question contains the tag either in its title, or in its body (which essentially means, if we're looking at the datasets, it contains the tag in the text attribute). Therefore, it is easy for the classifier to discover the connection between a question containing a certain word (the tag) and that question having a positive class (for the same tag).
+
+## References
+
+1. [A Discriminative Model Approach for Suggesting Tags Automatically for Stack Overflow Questions](https://www.cs.usask.ca/faculty/kas/Publications_files/msr13-id175-p-16622-preprint.pdf)
+2. [Tag Recommender for StackOverflow Questions](https://cseweb.ucsd.edu/~jmcauley/cse255/reports/wi15/Manindra_Moharana.pdf)
