@@ -65,28 +65,7 @@ public class ClassifierBuilder {
 			" OF THE ORIGINAL DATASET, WITH THE TESTING SET MAKING UP "+percentageOfTestSet+"%");
 	Instances data = df.getDataset(tag);
 	
-	StringToWordVector textToWordfilter = new StringToWordVector();
-	textToWordfilter.setTokenizer(new WordTokenizer());		
-	textToWordfilter.setInputFormat(data);
-	textToWordfilter.setWordsToKeep(10000);
-	textToWordfilter.setDoNotOperateOnPerClassBasis(true);
-	textToWordfilter.setLowerCaseTokens(true);
 	
-	Ranker ranker = new Ranker();
-	ranker.setThreshold(0.0);
-
-	AttributeSelection asFilter = new AttributeSelection();
-	
-	asFilter.setEvaluator(new InfoGainAttributeEval());
-
-	asFilter.setSearch(ranker);
-	
-	Filter[] filters = new Filter[2];		
-	filters[0] = textToWordfilter;
-	filters[1] = asFilter;
-	MultiFilter multiFilter = new MultiFilter();
-	multiFilter.setFilters(filters);
-
 	int seed = 1;			// the seed for randomizing the data
 	int folds = 100/percentageOfTestSet;			// the number of folds to generate, >=2
 	 
@@ -124,7 +103,7 @@ public class ClassifierBuilder {
 			
 			FilteredClassifier filteredClassifier = new FilteredClassifier();
 			filteredClassifier.setClassifier(classifier);			
-			filteredClassifier.setFilter(multiFilter);
+			filteredClassifier.setFilter(returnMultifilter(data));
 			
 			filteredClassifier.buildClassifier(train);
 
@@ -167,6 +146,36 @@ public class ClassifierBuilder {
 	System.out.println("Root relative squared error is: "+rootRelativeSquaredError/folds+"%");
 	System.out.println("Kappa statistics is: "+kappaStatistics/folds);
 		}
+	private Filter returnMultifilter(Instances data) {
+		StringToWordVector textToWordfilter = new StringToWordVector();
+		textToWordfilter.setTokenizer(new WordTokenizer());		
+		try {
+			textToWordfilter.setInputFormat(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		textToWordfilter.setWordsToKeep(10000);
+		textToWordfilter.setDoNotOperateOnPerClassBasis(true);
+		textToWordfilter.setLowerCaseTokens(true);
+		
+		Ranker ranker = new Ranker();
+		ranker.setThreshold(0.0);
+
+		AttributeSelection asFilter = new AttributeSelection();
+		
+		asFilter.setEvaluator(new InfoGainAttributeEval());
+
+		asFilter.setSearch(ranker);
+		
+		Filter[] filters = new Filter[2];		
+		filters[0] = textToWordfilter;
+		filters[1] = asFilter;
+		MultiFilter multiFilter = new MultiFilter();
+		multiFilter.setFilters(filters);
+		return multiFilter;
+
+	}
+
 	/**
 	 * 
 	 * @param data
