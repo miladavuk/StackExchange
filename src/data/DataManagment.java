@@ -7,8 +7,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
-import domain.EditedQuestion;
-import domain.Question;
+import datatransfer.EditedQuestion;
+import datatransfer.Question;
 
 /**
  * 

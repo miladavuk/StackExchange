@@ -10,8 +10,9 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.EditedQuestion;
-import domain.Question;
+
+import datatransfer.EditedQuestion;
+import datatransfer.Question;
 /**
  * 
  * @author Milada

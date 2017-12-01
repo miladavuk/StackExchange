@@ -11,12 +11,10 @@ public class Main {
 
 	public static void main(String[] args)  {
 
-		ClassifierBuilder cb = new ClassifierBuilder();
-		cb.buildAllClassifiers(5, 10);
+		//ClassifierBuilder cb = new ClassifierBuilder();
+		//cb.buildAllClassifiers(3, 10);
+		
 	}
-	
-	
-	
 	
 
 }

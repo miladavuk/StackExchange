@@ -6,7 +6,7 @@ import java.util.Random;
 import data.DataManagment;
 import data.DatasetFactory;
 import data.InputOutput;
-import domain.EditedQuestion;
+import datatransfer.EditedQuestion;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.classifiers.Evaluation;

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import domain.EditedQuestion;
+import datatransfer.EditedQuestion;
 import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instance;
